@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="../../resources/lib/react/react.js"></script>
+<script src="../../resources/lib/react/react-dom.js"></script>
+<script src="../../resources/lib/react/JSXTransformer.js"></script>
+<title>react hello word</title>
+</head>
+<body>
+  <div id="hellorworld"></div>
+  <div id="hellorworld2"></div>
+  <div id="content"></div>
+  <div id="content2"></div>
+  <script type="text/jsx" src="./helloword.js"></script>
+  <script>
+    var str = new Date().toTimeString()
+    var exp = /^(.+ )(\(([^\)]+)\))?$/
+    console.log(exp.exec(str))
+    console.log(new Date().toTimeString().replace(/^(.+ )(\(([^\)]+)\))?$/, "$1"))
+  </script>
+</body>
+</html>

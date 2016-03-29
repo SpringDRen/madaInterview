@@ -28,3 +28,7 @@ Concurrent HTTP Server
 * Setup auto-testing scripts and/or tools along with real browser tests
 * Refer to HTTP standard for protocol detail and header types
 * You might even take a look at ulimit for file descriptor limit
+
+1. socket实现http服务，只能get请求
+2. HTTP /1.0协议，多种MIME类型包括HTML，TXT，JavaScript中，CSS，PNG，和JPG文件
+3. AB性能测试

@@ -8,7 +8,14 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-public class PropertiesUtil {
+public final class PropertiesUtil {
+  
+  /**
+   * 不允许实例化
+   */
+  private PropertiesUtil() {
+    throw new AssertionError();
+  }
 
   /**
    * 根据properties路径、key值，实时读取属性值
@@ -60,7 +67,8 @@ public class PropertiesUtil {
     Set<Object> set = p.keySet();
     for (Object object : set) {
       if (object != null) {
-        reMap.put(String.valueOf(object), p.getProperty(String.valueOf(object)));
+        reMap
+            .put(String.valueOf(object), p.getProperty(String.valueOf(object)));
       }
     }
     return reMap;

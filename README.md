@@ -1,5 +1,3 @@
-# madaInterview 马达数据面试
-
 ##全栈测试题
 
 ####道琼斯成分股股价分析界面
@@ -29,6 +27,58 @@ Concurrent HTTP Server
 * Refer to HTTP standard for protocol detail and header types
 * You might even take a look at ulimit for file descriptor limit
 
+
+----------
+
+
 1. socket实现http服务，只能get请求
+
 2. HTTP /1.0协议，多种MIME类型包括HTML，TXT，JavaScript中，CSS，PNG，和JPG文件
 3. AB性能测试
+
+
+----------
+JDK：1.8没有其他依赖。
+使用步骤：
+mvn package -Dmaven.test.skip=true
+
+在target目录下，生成mada.jar。本系统暂时未引入其他依赖，如果有会复制到jar的同目录，即target/lib下
+
+java -jar mada.jar
+
+ps：运行服务器可以指定一个参数，http.properties的绝对路径，从文件外读取配置。
+http.properties的配置如下：
+ #http服务器端口号
+httpserver.port=80
+ #资源路径
+httpserver.source=E\:/thing-for-work/allworks/MyWork/madaInterview/src/main/webapp/resources/
+ #使用哪种实现方式 IO NIO(暂未实现)
+httpserver.iotype=IO
+
+
+----------
+
+性能测试截图：
+50并发，10000请求
+![](https://github.com/SpringDRen/madaInterview/blob/master/src/main/webapp/resources/img/io_50_10000.png)
+
+50并发，20000请求
+![](https://github.com/SpringDRen/madaInterview/blob/master/src/main/webapp/resources/img/io_50_20000.png)
+
+100并发，10000请求
+![](https://github.com/SpringDRen/madaInterview/blob/master/src/main/webapp/resources/img/io_100_10000.png)
+
+100并发，20000请求
+![](https://github.com/SpringDRen/madaInterview/blob/master/src/main/webapp/resources/img/io_100_20000.png)
+
+----------
+
+
+
+存在的问题：
+1、NIO服务器未实现
+2、无法读取jar包中的配置：java.io.FileNotFoundException: file:\E:\thing-for-work\allworks\MyWork\madaInter
+view\target\mada.jar!\http.properties (文件名、目录名或卷标语法不正确。)
+
+3、未限制POST请求
+4、浏览器访问貌似有些问题。。。

@@ -1,7 +1,6 @@
 package com.rlc.http.httpserver;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.StringReader;
 
 public class RequestHeader {
@@ -146,8 +145,7 @@ public class RequestHeader {
     }
 
     this.header = header.trim();
-    BufferedReader br = new BufferedReader(new StringReader(this.header));
-    try {
+    try (BufferedReader br = new BufferedReader(new StringReader(this.header));) {
       while (true) {
         String line = br.readLine();
         if (line == null) {
@@ -220,12 +218,6 @@ public class RequestHeader {
       }// end while
     } catch (Exception e) {
       throw new RequestHeaderParseException(e.getMessage(), e.getCause());
-    } finally {
-      try {
-        br.close();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
     }
   }
 

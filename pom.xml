@@ -16,11 +16,8 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>${Log4j.version}</version>
-    </dependency>
+    <!-- <dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> 
+      <version>${Log4j.version}</version> </dependency> -->
 
     <dependency>
       <groupId>junit</groupId>
@@ -74,6 +71,46 @@
           <target>1.8</target>
           <encoding>UTF-8</encoding>
         </configuration>
+      </plugin>
+      <!-- jar -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <!--change addClasspath to true if daks is desktop version -->
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <mainClass>com.rlc.http.StartHttpServer</mainClass>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <configuration>
+              <exclude></exclude>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+              <outputDirectory>
+                ${project.build.directory}/lib
+              </outputDirectory>
+              <excludeArtifactIds>junit,hamcrest-core</excludeArtifactIds>
+            </configuration>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

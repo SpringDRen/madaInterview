@@ -18,7 +18,7 @@ public class HttpServerConfigTest {
   public void testDefaultConfig() {
     int port = HttpServerConfig.getHttpServerPort();
     System.out.println(port);
-    assertTrue(port == 8080);
+    assertTrue(port == 80);
   }
   
   @Test

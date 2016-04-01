@@ -145,6 +145,7 @@ public class RequestHeader {
     }
 
     this.header = header.trim();
+    // 性能优化点。。。此处使用了BufferReader来处理字符串，直接解析字符串会不会快一点，或者使用其他方式解析会更快
     try (BufferedReader br = new BufferedReader(new StringReader(this.header));) {
       while (true) {
         String line = br.readLine();

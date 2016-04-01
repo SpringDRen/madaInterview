@@ -10,12 +10,12 @@ public final class HttpServerConfig {
   public static final String SERVER_BY_IO = "IO";
   public static final String SERVER_BY_NIO = "NIO";
 
-  //private static Logger log = Logger.getLogger(HttpServerConfig.class);
+  // private static Logger log = Logger.getLogger(HttpServerConfig.class);
   /**
    * http配置文件路径
    */
-  private static final String HTTP_PROPERTIES_PATH = HttpServerConfig.class
-      .getResource("/" + "http.properties").getPath();
+  private static final String HTTP_PROPERTIES_PATH = "/http.properties";
+  private static boolean isStaticInit = false;
 
   /**
    * http服务器端口号，默认值80
@@ -35,7 +35,7 @@ public final class HttpServerConfig {
    * 读取配置文件赋值操作，确保属性值在此段代码之前，否则会被默认值覆盖
    */
   static {
-    System.out.println(HTTP_PROPERTIES_PATH);
+    isStaticInit = true;
     init(HTTP_PROPERTIES_PATH);
   }
 
@@ -47,10 +47,16 @@ public final class HttpServerConfig {
   public static void init(String absolutePath) {
     Map<String, String> tempMap = null;
     try {
-      tempMap = PropertiesUtil.getPropertiesMap(absolutePath);
+      if (isStaticInit) {
+        tempMap = PropertiesUtil
+            .getPropertiesMapByStream(HttpServerConfig.class
+                .getResourceAsStream(absolutePath));
+      } else {
+        tempMap = PropertiesUtil.getPropertiesMap(absolutePath);
+      }
     } catch (Exception e) {
       e.printStackTrace();
-      //log.info("读取http配置文件失败", e);
+      // log.info("读取http配置文件失败", e);
       return;
     }
     if (tempMap != null) {
@@ -61,11 +67,11 @@ public final class HttpServerConfig {
           HTTPSERVER_PORT = Integer.valueOf(port);
         } catch (NumberFormatException e) {
           System.out.println("端口号必须为整数");
-          //log.info("端口号必须为整数");
+          // log.info("端口号必须为整数");
         }
       } else {
         System.out.println("端口号未配置");
-        //log.info("端口号未配置");
+        // log.info("端口号未配置");
       }
       // ------------- 端口号配置 end-------------
       // ############# 资源配路径置 start #############
@@ -74,7 +80,7 @@ public final class HttpServerConfig {
         SOURCEDIR = path;
       } else {
         System.out.println("资源配路径未配置");
-        //log.info("资源配路径未配置");
+        // log.info("资源配路径未配置");
       }
       // ############# 资源路径配置 start #############
       // ------------- 服务器实现类型径置 start -------------
@@ -83,7 +89,7 @@ public final class HttpServerConfig {
         IO_TYPE = iotype;
       } else {
         System.out.println("服务器实现类型未配置");
-        //log.info("服务器实现类型未配置");
+        // log.info("服务器实现类型未配置");
       }
       // ------------- 服务器实现类型配置 start -------------
 

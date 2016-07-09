@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Minus</title>
+</head>
+<body>
+  <input type="text" id="first">
+  <br>
+  <input type="text" id="second">
+  <br>
+  <input type="button" value="Minus" id="minus">
+  <br>
+  <span id="result"></span>
+</body>
+<script>
+  +function() {
+    var button = document.getElementById("minus")
+    button.onclick = function() {
+      //每次截取字符串的长度
+      var numberindex = 4
+      var resultspan = document.getElementById("result")
+      var first = document.getElementById("first").value
+      var second = document.getElementById("second").value
+      //剩余字符串的长度
+      var firstlen = first.length
+      var secondlen = second.length
+      //向高位借位的标志
+      var borrow = 0
+      //结果字符串
+      var result = ""
+      //开始计算
+      while (true) {
+        //截取字符串
+        var firstsub = ""
+        var sendsub = ""
+        //计算结果
+        var resultnum = 0
+        if (firstlen > numberindex) {
+          firstsub = first.substr(firstlen - numberindex, numberindex)
+          firstlen -= numberindex
+        } else if (firstlen > 0) {
+          firstsub = first.substr(0, firstlen)
+          firstlen = 0
+        } else {
+          firstsub = 0
+        }
+        //默认字符串为数字，不进行校验转换工作
+
+        if (secondlen > numberindex) {
+          sendsub = second.substr(secondlen - numberindex, numberindex)
+          secondlen -= numberindex
+        } else if (secondlen > 0) {
+          sendsub = second.substr(0, secondlen)
+          secondlen = 0
+        } else {
+          sendsub = 0
+        }
+
+        if (borrow == 0) {
+          resultnum = firstsub - sendsub
+        } else {
+          if (firstsub > 0) {
+            resultnum = firstsub - borrow - sendsub
+          } else {
+            resultnum = 0 - sendsub
+          }
+        }
+        //处理借位
+        if (resultnum < 0) {
+          borrow = 1
+        } else {
+          borrow = 0
+        }
+        //还要加一些处理，如果最后截取的几位相同，结果为0，且未计算完毕，需要根据截取位数补齐0
+        if (Math.abs(resultnum) != 0) {
+          result = Math.abs(resultnum) + result
+        } else {
+          if (firstlen <= 0 && secondlen <= 0) {
+
+          } else {
+            for (var i = 0; i < numberindex; i++) {
+              result += "0"
+            }
+          }
+        }
+
+        if (firstlen <= 0 && secondlen <= 0) {
+          if (borrow == 1) {
+            result = "-" + result
+          }
+          break
+        }
+
+      }
+
+      resultspan.innerHTML = result
+    }
+  }()
+</script>
+</html>
